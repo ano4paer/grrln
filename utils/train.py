@@ -63,27 +63,8 @@ if __name__ == '__main__':
     times = args.times
     data_root = '../data/'
 
-    if model_type == 'astnn':
-        # 原始astnn
-        from model_astnn_original import BatchProgramCC
-
-        model_name = str(lang) + "_model_astnn_original_" + str(lr) + "_" + str(BATCH_SIZE) + "_" + str(
-            HIDDEN_DIM) + "_" + str(ENCODE_DIM) + "_" + str(times)
-    elif model_type == 'astnn_no_tree':
-        # astnn去掉语句树之间的结构信息，不再使用递归方式生成根节点信息
-        from model_astnn_no_tree import BatchProgramCC
-
-        model_name = str(lang) + "_model_astnn_no_tree_" + str(lr) + "_" + str(BATCH_SIZE) + "_" + str(
-            HIDDEN_DIM) + "_" + str(ENCODE_DIM)+ "_" + str(times)
-    elif model_type == 'astnn_res':
-        # astnn加上残差网络
-        from model_astnn_res import BatchProgramCC
-
-        model_name = str(lang) + "_model_astnn_res_" + str(lr) + "_" + str(BATCH_SIZE) + "_" + str(
-            HIDDEN_DIM) + "_" + str(
-            ENCODE_DIM)+ "_" + str(times)
-    elif model_type == 'proto':
-        # 本文提出的模型
+    if model_type == 'proto':
+        # The proposed model (GRRLN)
         from model_proto import BatchProgramCC
 
         model_name = str(lang) + "_model_proto_" + str(lr) + "_" + str(BATCH_SIZE) + "_" + str(HIDDEN_DIM) + "_" + str(
@@ -91,17 +72,14 @@ if __name__ == '__main__':
 
 
     print("Train for %s" % model_name)
-    # 读取训练集和测试集数据
     data = pd.read_pickle(data_root + lang + '/data_all_blocks.pkl')
     train_data, test_data = train_test_split(data, test_size=0.3, shuffle=True)
     print("Data loaded.")
-    # 载入词向量模型默认词向量长度为128
     word2vec = Word2Vec.load(data_root + lang + "/train/embedding/node_w2v_128").wv
     MAX_TOKENS = word2vec.syn0.shape[0]
     EMBEDDING_DIM = word2vec.syn0.shape[1]
     embeddings = np.zeros((MAX_TOKENS + 1, EMBEDDING_DIM), dtype="float32")
     embeddings[:word2vec.syn0.shape[0]] = word2vec.syn0
-    # 上面的操作会使得：embeddings[-1] = [0] * EMBEDDING_DIM
     print("Word embedding model loaded. The dimension of word vector is %s" % str(ENCODE_DIM))
     USE_GPU = True
     if lang == 'java':
@@ -120,7 +98,6 @@ if __name__ == '__main__':
 
     parameters = model.parameters()
     optimizer = torch.optim.Adamax(parameters, lr=lr)
-    # 多分类的损失函数使用交叉熵损失函数
     loss_function = torch.nn.CrossEntropyLoss()
 
     # training procedure
@@ -146,7 +123,6 @@ if __name__ == '__main__':
                                                                                                         dtype=torch.int64).cuda()
             model.zero_grad()
             model.batch_size = len(train_labels)
-            # 如果模型是tcn请注释掉下一行
             model.hidden = model.init_hidden()
             output = model(train1_inputs, train2_inputs)
             # macs, params = profile(model, (train1_inputs, train2_inputs))

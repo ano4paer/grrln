@@ -15,9 +15,6 @@ def flatten(x):
     return result
 
 
-delete_list = [422, 14, 46, 62, 670, 25, 327]
-
-
 class BatchTreeEncoder(nn.Module):
     def __init__(self, vocab_size, embedding_dim, encode_dim, batch_size, use_gpu, pretrained_weight=None):
         super(BatchTreeEncoder, self).__init__()
@@ -48,14 +45,9 @@ class BatchTreeEncoder(nn.Module):
         size = len(node)
         for index in range(size):
             stmt = flatten(node[index])
-            # 把额外增加的标识信息：Method Declaration Ifstatement这类信息去除，也就是根节点信息去除。
-            # stmt = [i for i in stmt if i not in delete_list]
-            # random.shuffle(stmt)
-            # 将文本转换为index表示，再使用下面这行代码就能获得其词向量表示。
+            
             stmt_embedding = self.W_c(self.embedding(Variable(self.th.LongTensor(stmt))))
-            # if stmt_embedding.size()[0] > 1:
-            #     stmt_embedding = self.bn(stmt_embedding)
-            # 获得每一列的最大值
+            
             self.node_list.append(torch.max(stmt_embedding, 0)[0])
 
     def forward(self, x, bs):

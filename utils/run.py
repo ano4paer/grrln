@@ -2,7 +2,7 @@ import os
 
 if __name__ == "__main__":
     lang = 'c'
-    lr = 0.01
+    lr = 0.01  # you need to adjust the learning rate to duplicate results
     batch = 128
     gru = 64    # fixed value
     dw = 128   # fixed value

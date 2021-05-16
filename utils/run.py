@@ -2,11 +2,11 @@ import os
 
 if __name__ == "__main__":
     lang = 'c'
-    lr = 0.001
-    batch = 512
+    lr = 0.01
+    batch = 128
     gru = 64
     dw = 128
-    epoch = 5
+    epoch = 1
     times = 5
     model_name = str(lang) + "_" + str(lr) + "_" + str(batch) + "_" + str(dw) + "_" + str(
         gru) + "_" + str(times)

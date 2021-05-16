@@ -8,3 +8,8 @@ Usage:
 Requirements:
 
 1. The dependency libraries are shown in *requirements.txt* file and you can install them by using `pip install -r requirements.txt`.
+
+Attention:
+
+1. Please adjusting the parameters in the algorithm for getting desired results.
+

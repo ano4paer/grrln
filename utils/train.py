@@ -63,16 +63,15 @@ if __name__ == '__main__':
     times = args.times
     data_root = '../data/'
 
-    if model_type == 'proto':
-        # The proposed model (GRRLN)
-        from model_proto import BatchProgramCC
+    from model import BatchProgramCC
 
-        model_name = str(lang) + "_model_proto_" + str(lr) + "_" + str(BATCH_SIZE) + "_" + str(HIDDEN_DIM) + "_" + str(
+    model_name = str(lang) + "_" + str(lr) + "_" + str(BATCH_SIZE) + "_" + str(HIDDEN_DIM) + "_" + str(
             ENCODE_DIM) + "_" + str(times)
 
 
     print("Train for %s" % model_name)
     data = pd.read_pickle(data_root + lang + '/data_all_blocks.pkl')
+
     train_data, test_data = train_test_split(data, test_size=0.3, shuffle=True)
     print("Data loaded.")
     word2vec = Word2Vec.load(data_root + lang + "/train/embedding/node_w2v_128").wv

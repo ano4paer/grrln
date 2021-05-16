@@ -9,7 +9,6 @@ from sklearn.metrics import classification_report
 from visdom import Visdom
 from sklearn.utils import shuffle as reset
 
-
 warnings.filterwarnings('ignore')
 
 
@@ -21,13 +20,15 @@ def count_param(model):
 
 
 def get_batch(dataset, idx, bs):
-    tmp = dataset.iloc[idx: idx + bs]
+    tmp = dataset.iloc[idx * bs: (idx + 1) * bs]
+    print(idx * bs, (idx + 1) * bs)
     x1, x2, labels = [], [], []
     for _, item in tmp.iterrows():
         x1.append(item['code_x'])
         x2.append(item['code_y'])
         labels.append([item['label']])
     return x1, x2, torch.FloatTensor(labels)
+
 
 def train_test_split(data, test_size=0.3, shuffle=True, random_state=2020):
     if shuffle:
@@ -66,8 +67,7 @@ if __name__ == '__main__':
     from model import BatchProgramCC
 
     model_name = str(lang) + "_" + str(lr) + "_" + str(BATCH_SIZE) + "_" + str(HIDDEN_DIM) + "_" + str(
-            ENCODE_DIM) + "_" + str(times)
-
+        ENCODE_DIM) + "_" + str(times)
 
     print("Train for %s" % model_name)
     data = pd.read_pickle(data_root + lang + '/data_all_blocks.pkl')
@@ -109,7 +109,7 @@ if __name__ == '__main__':
     viz.line([0.], [0], win='train_loss', opts=dict(title='train_loss'))
     start_time = time.time()
     len_train = len(train_data)
-    end_index_train = int(len_train/BATCH_SIZE)-1
+    end_index_train = int(len_train / BATCH_SIZE) - 1
     for epoch in range(EPOCHS):
         index = 0
         while index < end_index_train:
@@ -130,7 +130,7 @@ if __name__ == '__main__':
             loss.backward()
             optimizer.step()
     end_time = time.time()
-    print(end_time-start_time)
+    print(end_time - start_time)
 
     torch.save(model.state_dict(), "../model/" + model_name + ".pth")
 
@@ -140,14 +140,13 @@ if __name__ == '__main__':
     test_loss = 0.0
     i = 0
     len_test = len(test_data)
-    end_index_test = int(len_test/BATCH_SIZE)-1
+    end_index_test = int(len_test / BATCH_SIZE) - 1
     while i < end_index_test:
         batch = get_batch(test_data, i, BATCH_SIZE)
-        i += BATCH_SIZE
+        i += 1
         test1_inputs, test2_inputs, test_labels = batch
         if USE_GPU:
             test_labels = torch.tensor(test_labels, dtype=torch.int64).cuda()
-
 
         model.batch_size = len(test_labels)
         # model.hidden = model.init_hidden()

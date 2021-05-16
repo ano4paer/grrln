@@ -114,7 +114,7 @@ if __name__ == '__main__':
         index = 0
         while index < end_index_train:
             batch = get_batch(train_data, index, BATCH_SIZE)
-            index += BATCH_SIZE
+            index += 1
             draw_index += BATCH_SIZE
             train1_inputs, train2_inputs, train_labels = batch
             if USE_GPU:
@@ -124,12 +124,8 @@ if __name__ == '__main__':
             model.batch_size = len(train_labels)
             model.hidden = model.init_hidden()
             output = model(train1_inputs, train2_inputs)
-            # macs, params = profile(model, (train1_inputs, train2_inputs))
-            # macs, params = clever_format([macs, params], "%.3f")
-            # print(macs, params)
             loss = loss_function(output, Variable(train_labels))
             viz.line([loss.item()], [draw_index], win='train_loss', update='append')
-            # print(loss.item())
             train_loss.append(loss.item())
             loss.backward()
             optimizer.step()

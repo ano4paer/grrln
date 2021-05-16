@@ -3,7 +3,7 @@ import os
 if __name__ == "__main__":
     lang = 'c'
     lr = 0.001
-    batch = 32
+    batch = 512
     gru = 64
     dw = 128
     epoch = 5

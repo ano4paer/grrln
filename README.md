@@ -2,7 +2,7 @@ Source code for FSE2021 paper
 
 Usage:
 
-1. Enter *utils* dir and execute `python -m visdom.server` ， you can open http://localhost:8097/ for checking training process.
+1. Enter *utils* dir and execute `python -m visdom.server` ， you can open http://localhost:8097/ for checking training process. (If you do not want to use visdom to observe the training loss curve, you should remove some line for it.)
 2. Run `python run.py`
 
 Requirements:

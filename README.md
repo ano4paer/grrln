@@ -2,7 +2,7 @@ Source code for FSE2021 paper
 
 Usage:
 
-1. Enter *utils* dir and execute `python -m visdom.server` ， you can browser http://localhost:8097/ 
+1. Enter *utils* dir and execute `python -m visdom.server` ， you can open http://localhost:8097/ for checking training process.
 2. Run `python run.py`
 
 Requirements:

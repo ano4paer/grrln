@@ -21,7 +21,6 @@ def count_param(model):
 
 def get_batch(dataset, idx, bs):
     tmp = dataset.iloc[idx * bs: (idx + 1) * bs]
-    print(idx * bs, (idx + 1) * bs)
     x1, x2, labels = [], [], []
     for _, item in tmp.iterrows():
         x1.append(item['code_x'])

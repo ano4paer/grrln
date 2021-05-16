@@ -6,7 +6,7 @@ if __name__ == "__main__":
     batch = 128
     gru = 64
     dw = 128
-    epoch = 1
+    epoch = 5
     times = 5
     model_name = str(lang) + "_" + str(lr) + "_" + str(batch) + "_" + str(dw) + "_" + str(
         gru) + "_" + str(times)

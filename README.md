@@ -8,6 +8,7 @@ Usage:
 Requirements:
 
 1. The dependency libraries are shown in *requirements.txt* file and you can install them by using `pip install -r requirements.txt`.
+2. python==3.5.6
 
 Attention:
 

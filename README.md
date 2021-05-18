@@ -12,4 +12,5 @@ Requirements:
 Attention:
 
 1. Please adjusting the parameters in the algorithm for getting desired results.
+2. If you can't load _*.pkl_ files, please download data file independently from this repository.
 
